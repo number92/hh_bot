@@ -6,9 +6,21 @@ authors = ["Aleksey <rav.92@list.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.11"
 aiogram = "^3.17.0"
+environs = "^14.1.0"
 
+
+[tool.poetry.dev-dependencies]
+Flake8-pyproject = "^1.2.3"
+black = "^24.10.0"
+
+[tool.black]
+line-length = 120
+target-version = ["py311"]
+
+[tool.flake8]
+max-line-length = 120
 
 [build-system]
 requires = ["poetry-core"]
