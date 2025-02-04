@@ -8,7 +8,7 @@ logger = get_logger(__name__)
 
 
 @router.callback_query(MainDataMenu.filter(F.slug == "buyer-teamlead"))
-async def handle_functions(callback_query: types.CallbackQuery, callback_data: MainDataMenu):
+async def handle_buyer(callback_query: types.CallbackQuery, callback_data: MainDataMenu):
     """
     Обработка кнопки  я медиабайер/лид
     """
