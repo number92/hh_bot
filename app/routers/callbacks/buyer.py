@@ -12,5 +12,4 @@ async def handle_buyer(callback_query: types.CallbackQuery, callback_data: MainD
     """
     Обработка кнопки  я медиабайер/лид
     """
-
     await callback_query.message.edit_text(text="Выберите позицию:", reply_markup=kb_choose_position())
