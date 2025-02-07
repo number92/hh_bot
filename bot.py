@@ -8,6 +8,7 @@ from aiogram.client.bot import DefaultBotProperties
 from aiogram import Bot, Dispatcher, types
 
 from app.routers import router as main_router
+from aiogram.exceptions import AiogramError, TelegramNetworkError, TelegramServerError
 
 
 logger = get_logger(__name__, level=logging.DEBUG, handler=None)
@@ -29,7 +30,13 @@ async def main():
         await dp.stop_polling()
         logger.info("Остановка бота")
 
+    except (TelegramServerError, TelegramNetworkError):
+        await dp.stop_polling()
+        await dp.start_polling(bot)
+        logger.info("Проблемы подключения к серверу Telegram, перезагрузка бота.")
+
     except Exception as e:
+
         logger.error(e)
 
 
