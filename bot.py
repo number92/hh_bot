@@ -24,7 +24,7 @@ async def main():
         logging.basicConfig(level=logging.DEBUG)  # Remove
 
         await bot.set_my_commands([types.BotCommand(command="start", description="Main menu")])
-
+        await bot.delete_webhook(drop_pending_updates=True)
         await dp.start_polling(bot)
     except KeyboardInterrupt:
         await dp.stop_polling()
@@ -32,6 +32,7 @@ async def main():
 
     except (TelegramServerError, TelegramNetworkError):
         await dp.stop_polling()
+
         await dp.start_polling(bot)
         logger.info("Проблемы подключения к серверу Telegram, перезагрузка бота.")
 

@@ -11,11 +11,10 @@ def kb_main_menu(msg: types.Message):
     """Основное меню"""
     teamlead = types.InlineKeyboardButton(
         text="Я Media buyer/Team Lead и хочу к вам присоединиться",
-        callback_data=MainDataMenu(slug="buyer-teamlead", prev_mess=msg.message_id).pack(),
+        callback_data=MainDataMenu(slug="buyer-teamlead").pack(),
     )
     vacancy = types.InlineKeyboardButton(
-        text="Посмотреть другие вакансии",
-        callback_data=MainDataMenu(slug="other-vacanies", prev_mess=msg.message_id).pack(),
+        text="Посмотреть другие вакансии", callback_data=MainDataMenu(slug="other-vacanies").pack()
     )
 
     return types.InlineKeyboardMarkup(

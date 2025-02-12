@@ -8,7 +8,7 @@
             "name": "Отладчик Python: Текущий файл",
             "type": "debugpy",
             "request": "launch",
-            "program": "C:\\Dev\\test\\hh_bot\\bot.py",
+            "program": "/home/number92/Dev/hh_bot/bot.py",
             "console": "integratedTerminal"
         }
     ]
