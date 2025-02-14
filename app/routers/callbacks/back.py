@@ -14,3 +14,6 @@ async def handle_backbtn(callback_query: types.CallbackQuery, state: FSMContext)
     return await callback_query.message.edit_text(
         "Выберите подходящий раздел ниже.", reply_markup=kb_main_menu(callback_query.message)
     )
+
+
+# TODO: проверить логику

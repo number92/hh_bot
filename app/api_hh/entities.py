@@ -7,9 +7,6 @@ class BaseDataClass:
     id: str
     name: str
 
-    def __repr__(self):
-        return self.name
-
 
 @dataclass
 class EmploymentForm(BaseDataClass):
@@ -71,7 +68,7 @@ class Salary:
 
     from_amount: Optional[float]
     to_amount: Optional[float]
-    currency: str | None = None
+    currency: Optional[str] = None
     gross: Optional[bool] = None
 
 
@@ -103,6 +100,17 @@ class Contact:
     email: Optional[str] = None
     name: Optional[str] = None
     phones: Optional[List[Dict[str, str]]] = None
+
+    def get_full_phone_numbers(self) -> List[str]:
+        full_numbers = []
+        if self.phones:
+            for phone in self.phones:
+                full_number = f"+{phone.get('country', '')} {phone.get('city', '')} {phone.get('number', '')}"
+                comment = phone.get("comment")
+                if comment:
+                    full_number += f" ({comment})"
+                full_numbers.append(full_number)
+        return full_numbers
 
 
 @dataclass
@@ -160,10 +168,13 @@ class ShortVacancy(BaseDataClass):
     """Класс для представления вакансии."""
 
     area: Area
+    vacancy_type: TypeVacancy
     salary: Optional[Salary]
     employer: Employer
     snippet: Snippet
     published_at: str
+    created_at: str
+    premium: bool
     url: str = None
     alternate_url: str = None
     response_url: Optional[str] = None

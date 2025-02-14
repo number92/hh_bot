@@ -4,7 +4,6 @@ from aiogram.filters.callback_data import CallbackData
 
 class MainDataMenu(CallbackData, prefix="main"):
     slug: str
-    prev_mess: None | int
 
 
 def kb_main_menu(msg: types.Message):

@@ -17,10 +17,15 @@ def compile_report(data: dict):
         revenue_str = f"<i>Твой средний ревенью в месяц?</i> {revenue}\n"
     else:
         revenue_str = f"<i>Общий ревенью в месяц. И ревенью на каждого баера.</i> {data.get('sum_revenue')}"
-        
+
+    profit = (
+        "<i>Если рассматривать последний квартал, сколько $"
+        f"в месяц составлял твой максимальный профит? {data.get('profit')}</i>\n"
+    )
+
     message = [
-        f"<i>Пользователь:</i> {data.get("firstname")} {data.get("lastname")}",
-        f"<i>ссылка:</i> {data.get("firstname")} {data.get("lastname")}",
+        f"<i>Пользователь:</i> {data.get('firstname')} {data.get('lastname')}",
+        f"<i>ссылка:</i> {data.get('firstname')} {data.get('lastname')}",
         f"<i>Позиция:</i> {position}\n" f"<i>Напиши свое имя:</i> {data.get('name')}\n",
         f"<i>Выбери свой источник:</i> {data.get('name')}{other_source}\n",
         workers,
@@ -28,6 +33,13 @@ def compile_report(data: dict):
         f"<i>ГЕО, с которыми вы работаете?</i> {data.get('geo')}\n",
         revenue_str,
         spend,
-        f"<i>Если рассматривать последний квартал, сколько $ в месяц составлял твой максимальный профит? {data.get('profit')}</i>\n",
+        profit,
     ]
     return "".join(message)
+
+
+def list_vacancies_view():
+    return (
+        "Ниже можно ознакомиться с открытыми вакансиями. "
+        "Если вдруг не нашел подходящей позиции, загрузи свое резюме, и мы обязательно его рассмотрим!"
+    )
