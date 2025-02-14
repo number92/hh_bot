@@ -1,6 +1,0 @@
-{
-    "flake8.importStrategy": "fromEnvironment",
-    "[python]": {
-        "editor.formatOnSave": true
-    }
-}
