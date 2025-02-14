@@ -2,13 +2,13 @@ import asyncio
 from typing import List, Optional
 import aiohttp
 from app.core.config import HH_EMPLOYER_ID
-from app.api_hh.response import ApiResponseParser
+from app.api_hh.response import ApiResponseVacancyParser
 from app.api_hh import entities as type_hh
 
 
 class HHApi:
     BASE_URL = "https://api.hh.ru"
-    HH__USER_AGENT = "HHbot(rav.92@lis.ru)"
+    HH__USER_AGENT = "HHbot(rav.92@list.ru)"
 
     def __init__(self, user_agent: Optional[str] = None, hh_user_agent: Optional[str] = None):
         self.session = aiohttp.ClientSession()
@@ -45,19 +45,19 @@ class HHApi:
     async def get_vacancy(self, vacancy_id) -> type_hh.Vacancy:
         """Получить информацию о конкретной вакансии по ID."""
         data = await self._make_request(f"{self.BASE_URL}/vacancies/{vacancy_id}")
-        parser = ApiResponseParser(data)
+        parser = ApiResponseVacancyParser(data)
         return parser.parse_vacancy()
 
     async def get_area_by_id(self, area_id) -> type_hh.Area:
         """Получить информацию о регионе по ID."""
         data = await self._make_request(f"{self.BASE_URL}/areas/{area_id}")
-        parser = ApiResponseParser(data)
+        parser = ApiResponseVacancyParser(data)
         return parser.parse_area()
 
     async def get_employer(self, employer_id: str) -> type_hh.EmployerInfo:
         """Получить информацию о работодателе по ID."""
         data = await self._make_request(f"{self.BASE_URL}/employers/{employer_id}")
-        parser = ApiResponseParser(data)
+        parser = ApiResponseVacancyParser(data)
         return parser.parse_employer_info()
 
     async def get_vacancies_by_employer_id(
@@ -69,7 +69,7 @@ class HHApi:
 
         vacancies = []
         for item in data["items"]:
-            parser = ApiResponseParser(item)
+            parser = ApiResponseVacancyParser(item)
             vacancy = parser.parse_vacancy()
             vacancies.append(vacancy)
 

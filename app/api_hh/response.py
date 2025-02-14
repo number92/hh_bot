@@ -1,10 +1,14 @@
 from app.api_hh import entities as hh
-from typing import Optional, Type, TypeVar
+from typing import List, Optional, Type, TypeVar
 
 T = TypeVar("T")
 
 
-class ApiResponseParser:
+class ApiResponseVacancyParser:
+    """
+    Docs: https://api.hh.ru/openapi/redoc
+    """
+
     def __init__(self, response_data):
         self.data = response_data
 
@@ -13,6 +17,22 @@ class ApiResponseParser:
             if hasattr(cls, "__dataclass_fields__"):
                 return cls(**{k: v for k, v in self.data[key].items() if k in cls.__dataclass_fields__})
         return None
+
+    def _parse_boolean(self, key: str, default: bool = False) -> bool:
+        return self.data.get(key, default)
+
+    def _parse_list_of_objects(self, key: str, cls: Type[T]) -> List[T]:
+        """Парсит список объектов по ключу."""
+        return [cls(**item) for item in self.data.get(key, []) if isinstance(item, dict)]
+
+    def parse_has_test(self):
+        return self._parse_boolean("has_test")
+
+    def parse_initial_created_at(self):
+        return self.data.get("initial_created_at")
+
+    def parse_premium(self):
+        return self.data.get("premium", False)
 
     def parse_area(self):
         return hh.Area(**self.data["area"])
@@ -44,11 +64,26 @@ class ApiResponseParser:
     def parse_department(self):
         return self._parse_optional("department", hh.Department)
 
+    def parse_employment_form(self):
+        return self._parse_optional("employment_form", hh.EmploymentForm)
+
+    def parse_experience(self):
+        return self._parse_optional("experience", hh.Experience)
+
+    def parse_professional_roles(self):
+        return self._parse_list_of_objects("professional_roles", hh.ProfessionalRoles)
+
+    def parse_work_format(self):
+        return self._parse_list_of_objects("work_format", hh.WorkFormat)
+
     def parse_key_skills(self):
-        return [hh.KeySkill(**skill) for skill in self.data.get("key_skills", [])]
+        return self._parse_list_of_objects("key_skills", hh.KeySkill)
 
     def parse_languages(self):
-        return [hh.Language(**lang) for lang in self.data.get("languages", [])]
+        return self._parse_list_of_objects("languages", hh.Language)
+
+    def parse_vacancy_type(self):
+        return self._parse_optional("type", hh.TypeVacancy)
 
     def parse_employer_info(self) -> hh.EmployerInfo:
         return hh.EmployerInfo(
@@ -72,6 +107,10 @@ class ApiResponseParser:
             salary=self.parse_salary(),
             employer=self.parse_employer(),
             snippet=self.parse_snippet(),
+            has_test=self.parse_has_test(),
+            initial_created_at=self.parse_initial_created_at(),
+            premium=self.parse_premium(),
+            professional_roles=self.parse_professional_roles(),
             published_at=self.data["published_at"],
             url=self.data.get("url"),
             alternate_url=self.data["alternate_url"],
@@ -82,4 +121,8 @@ class ApiResponseParser:
             department=self.parse_department(),
             key_skills=self.parse_key_skills(),
             languages=self.parse_languages(),
+            employment_form=self.parse_employment_form(),
+            experience=self.parse_experience(),
+            work_format=self.parse_work_format(),
+            vacancy_type=self.parse_vacancy_type(),
         )

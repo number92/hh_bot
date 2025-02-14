@@ -17,3 +17,6 @@ class PositionMenu(CallbackData, prefix="position"):
 
 def kb_other_vacancies():
     builder = InlineKeyboardBuilder()
+
+
+# TODO: клавиатура

@@ -3,20 +3,60 @@ from typing import List, Optional, Dict
 
 
 @dataclass
-class Area:
-    """Класс для представления региона."""
-
+class BaseDataClass:
     id: str
     name: str
+
+    def __repr__(self):
+        return self.name
+
+
+@dataclass
+class EmploymentForm(BaseDataClass):
+    """Название типа занятости"""
+
+    pass
+
+
+@dataclass
+class TypeVacancy(BaseDataClass):
+    """Название типа вакансии"""
+
+    pass
+
+
+@dataclass
+class ProfessionalRoles(BaseDataClass):
+    """Название профессиональной роли"""
+
+    pass
+
+
+@dataclass
+class Experience(BaseDataClass):
+    """Требуемый опыт работы"""
+
+    pass
+
+
+@dataclass
+class WorkFormat(BaseDataClass):
+    """Требуемый опыт работы"""
+
+    pass
+
+
+@dataclass
+class Area(BaseDataClass):
+    """Класс для представления региона."""
+
     url: str
 
 
 @dataclass
-class Employer:
+class Employer(BaseDataClass):
     """Класс для представления работодателя."""
 
-    id: str
-    name: str
     url: str | None = ""
     alternate_url: str | None = ""
     logo_urls: Dict[str, str] | None = None
@@ -53,6 +93,7 @@ class Address:
     lat: Optional[float] = None
     lng: Optional[float] = None
     metro_stations: Optional[List[Dict[str, str]]] = None
+    street: Optional[str] = None
 
 
 @dataclass
@@ -65,11 +106,10 @@ class Contact:
 
 
 @dataclass
-class Department:
+class Department(BaseDataClass):
     """Класс для представления информации о департаменте."""
 
-    id: Optional[str] = None
-    name: Optional[str] = None
+    pass
 
 
 @dataclass
@@ -80,24 +120,27 @@ class KeySkill:
 
 
 @dataclass
-class Language:
+class Language(BaseDataClass):
     """Класс для представления информации о языке."""
 
-    id: Optional[str] = None
-    name: Optional[str] = None
     level: Optional[Dict[str, str]] = None
 
 
 @dataclass
-class Vacancy:
+class Vacancy(BaseDataClass):
     """Класс для представления вакансии."""
 
-    id: str
-    name: str
     area: Area
     employer: Employer
     snippet: Snippet
     published_at: str
+    has_test: bool
+    initial_created_at: str
+    published_at: str
+    premium: bool
+    vacancy_type: TypeVacancy
+    professional_roles: List[ProfessionalRoles]
+    work_format: Optional[List[WorkFormat]] = None
     url: str | None = None
     alternate_url: str | None = None
     response_url: Optional[str] = None
@@ -108,14 +151,14 @@ class Vacancy:
     department: Optional[Department] = None
     key_skills: Optional[List[KeySkill]] = None
     languages: Optional[List[Language]] = None
+    employment_form: EmploymentForm | None = None
+    experience: Experience | None = None
 
 
 @dataclass
-class ShortVacancy:
+class ShortVacancy(BaseDataClass):
     """Класс для представления вакансии."""
 
-    id: str
-    name: str
     area: Area
     salary: Optional[Salary]
     employer: Employer
@@ -127,11 +170,9 @@ class ShortVacancy:
 
 
 @dataclass
-class EmployerInfo:
+class EmployerInfo(BaseDataClass):
     """Класс для представления информации о работодателе."""
 
-    id: str
-    name: str
     open_vacancies: int
     logo_urls: Dict[str, str] | None = None
     description: str = None
