@@ -1,3 +1,7 @@
+from app.api_hh.entities import Vacancy
+from app.routers.utils import format_html_for_telegram
+
+
 def compile_report(data: dict):
     position = data.get("position")
     other_source = (
@@ -43,3 +47,7 @@ def list_vacancies_view():
         "Ниже можно ознакомиться с открытыми вакансиями. "
         "Если вдруг не нашел подходящей позиции, загрузи свое резюме, и мы обязательно его рассмотрим!"
     )
+
+
+def make_message_vacancy(vacancy: Vacancy):
+    return format_html_for_telegram(vacancy.description)

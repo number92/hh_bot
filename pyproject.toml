@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.11"
 aiogram = "^3.17.0"
 environs = "^14.1.0"
+bs4 = "^0.0.2"
 
 
 [tool.poetry.dev-dependencies]
