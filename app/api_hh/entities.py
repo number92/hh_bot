@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Optional, Dict
+from collections import defaultdict
 
 
 @dataclass
@@ -134,8 +135,16 @@ class Language(BaseDataClass):
     level: Optional[Dict[str, str]] = None
 
 
+class ModificateTG:
+    def _not_longer_sixty_four(self, name: str):
+        """Ограничение тг на кнопке 64 символа"""
+        if len(name) > 64:
+            return name[:61] + "..."
+        return name
+
+
 @dataclass
-class Vacancy(BaseDataClass):
+class Vacancy(BaseDataClass, ModificateTG):
     """Класс для представления вакансии."""
 
     area: Area
@@ -195,7 +204,20 @@ class EmployerInfo(BaseDataClass):
 
 
 @dataclass
-class EmployerVacanciesResponse:
+class EmployerVacanciesResponse(ModificateTG):
     """Класс для представления ответа с вакансиями работодателя."""
 
     items: List[Vacancy]
+
+    def modify_vacancy_unique_names(self) -> None:
+        """Изменяет названия вакансий на уникальные."""
+        vacancy_names = defaultdict(int)
+
+        for vacancy in self.items:
+            original_name = self._not_longer_sixty_four(vacancy.name)
+            city_name = vacancy.area.name
+            vacancy_names[original_name] += 1
+            if vacancy_names[original_name] > 1:
+                city_name_with_brackets = f" ({city_name})"
+                length_to_trim = len(city_name_with_brackets) + 3
+                vacancy.name = original_name[:-length_to_trim] + "..." + city_name_with_brackets

@@ -1,8 +1,9 @@
 from app.api_hh.entities import Vacancy
 from app.routers.utils import format_html_for_telegram
+from aiogram import types
 
 
-def compile_report(data: dict):
+def compile_report(data: dict) -> str:
     position = data.get("position")
     other_source = (
         f"\n<i>Пожалуйста, напиши свой источник.</i> {data.get('other_source')}" if data.get("other_source") else ""
@@ -42,12 +43,31 @@ def compile_report(data: dict):
     return "".join(message)
 
 
-def list_vacancies_view():
+def list_vacancies_view() -> str:
     return (
         "Ниже можно ознакомиться с открытыми вакансиями. "
         "Если вдруг не нашел подходящей позиции, загрузи свое резюме, и мы обязательно его рассмотрим!"
     )
 
 
-def make_message_vacancy(vacancy: Vacancy):
+def choose_position_message() -> str:
+    return "Выбери должность на которую претендуешь:"
+
+
+def make_message_vacancy(vacancy: Vacancy) -> str:
     return format_html_for_telegram(vacancy.description)
+
+
+def message_for_manager_about_resume(message: types.Message, vacancy: Vacancy) -> str:
+    user_link = f"<a href='tg://user?id={message.from_user.id}'>"
+
+    if message.from_user.full_name:
+        user_link += message.from_user.full_name
+    elif message.from_user.username:
+        user_link += f"@{message.from_user.username}"
+    else:
+        user_link += "Неизвестный пользователь"
+
+    user_link += "</a>"
+
+    return f'Резюме от {user_link} на позицию "{vacancy.name}"'

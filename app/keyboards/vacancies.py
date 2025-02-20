@@ -11,11 +11,15 @@ class VacancyData(CallbackData, prefix="vacancy"):
     action: str
 
 
-class UploadResume(CallbackData, prefix="resume"):
-    name: str
+class UploadResumeData(CallbackData, prefix="resume-upload"):
+    id: str | None
 
 
-def _builder_show_vacancies(data: List[Vacancy], action: str) -> InlineKeyboardBuilder:
+def btn_download_resume(id=None):
+    return types.InlineKeyboardButton(text="Загрузить резюме", callback_data=UploadResumeData(id=id).pack())
+
+
+def _builder_show_vacancies(data: List[Vacancy], action) -> InlineKeyboardBuilder:
     builder = InlineKeyboardBuilder()
     for vacancy in data:
         builder.add(
@@ -28,7 +32,7 @@ def _builder_show_vacancies(data: List[Vacancy], action: str) -> InlineKeyboardB
 
 def kb_vacancies_view(data: List[Vacancy]):
     builder = _builder_show_vacancies(data, "view")
-    builder.add(types.InlineKeyboardButton(text="Загрузить резюме", callback_data=UploadResume(name="upload").pack()))
+    builder.add(btn_download_resume())
     builder.add(btn_back_to_menu())
     builder.adjust(1)
     return builder.as_markup()
@@ -39,3 +43,7 @@ def kb_vacancies_upload_resume(data: List[Vacancy]):
     builder.add(btn_back_to_menu())
     builder.adjust(1)
     return builder.as_markup()
+
+
+def kb_upload_resume_and_back(id: int):
+    return types.InlineKeyboardMarkup(inline_keyboard=[[btn_download_resume(id=id)], [btn_back_to_menu()]])

@@ -9,6 +9,7 @@ from app.routers.callbacks.back import router as back_router
 from app.routers.callbacks.survey import router as base_survey_router
 from app.routers.surveybase import router as base_dialog_router
 from app.routers.surveylead import router as lead_dialog_router
+from app.routers.waiting_resume import router as resume_router
 
 router = Router(name=__name__)
 
@@ -21,4 +22,5 @@ router.include_routers(
     base_dialog_router,
     base_survey_router,
     lead_dialog_router,
+    resume_router,
 )
