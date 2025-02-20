@@ -4,7 +4,7 @@
 Создать и заполнить .env файл в корне приложения (.env.example )
 
 #### Сборка образа
-docker build -t my-telegram-bot .
+docker build -t hh-bot .
 
 #### Запуск контейнера
-docker run -d --name my-telegram-bot-container my-telegram-bot
+docker run -d --name hh-bot hh-bot
