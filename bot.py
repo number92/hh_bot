@@ -8,10 +8,10 @@ from aiogram.client.bot import DefaultBotProperties
 from aiogram import Bot, Dispatcher, types
 
 from app.routers import router as main_router
-from aiogram.exceptions import AiogramError, TelegramNetworkError, TelegramServerError
+from aiogram.exceptions import TelegramNetworkError, TelegramServerError
 
 
-logger = get_logger(__name__, level=logging.DEBUG, handler=None)
+logger = get_logger(__name__, level=logging.DEBUG, handler="file")
 
 dp = Dispatcher()
 dp.include_router(main_router)
@@ -21,7 +21,7 @@ bot = Bot(config.TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
 async def main():
     try:
         logger.info("Запуск бота")
-        logging.basicConfig(level=logging.DEBUG)  # Remove
+        # logging.basicConfig(level=logging.DEBUG)  # Remove
 
         await bot.set_my_commands([types.BotCommand(command="start", description="Main menu")])
         await bot.delete_webhook(drop_pending_updates=True)
