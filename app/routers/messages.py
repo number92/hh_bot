@@ -28,9 +28,17 @@ def compile_report(data: dict) -> str:
         f"в месяц составлял твой максимальный профит? {data.get('profit')}</i>\n"
     )
 
+    name_user = ""
+    if data.get("first_name"):
+        name_user = f"{data.get('first_name')} {data.get('last_name')}"
+    elif data.get("username"):
+        name_user = data.get("username")
+    else:
+        name_user = data.get("user_id")
+
     message = [
-        f"<i>Пользователь:</i> {data.get('firstname')} {data.get('lastname')}",
-        f"<i>ссылка:</i> {data.get('firstname')} {data.get('lastname')}",
+        "<i>Соискатель:</i>",
+        f"<a href='{data.get('profile_link', '#')}'>  {name_user} </a>\n",
         f"<i>Позиция:</i> {position}\n" f"<i>Напиши свое имя:</i> {data.get('name')}\n",
         f"<i>Выбери свой источник:</i> {data.get('name')}{other_source}\n",
         workers,

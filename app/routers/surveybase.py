@@ -72,11 +72,14 @@ async def handle_your_avg_spend(message: types.Message, state: FSMContext):
 @router.message(SurveyData.profit, F.text)
 async def handle_your_profit(message: types.Message, state: FSMContext):
     """-- Если рассматривать твой последний квартал, сколько $ в месяц составляет твой максимальный профит?"""
-    username = message.from_user.username
+    user_data = message.from_user
+    profile_link = user_data.url if user_data.url else f"https://t.me/{user_data.username}"
     user = {
-        "first_name": message.from_user.first_name,
-        "last_name": message.from_user.last_name,
-        "profile_link": f"https://t.me/{username}" if username else "Пользователь не имеет username",
+        "user_id": user_data.id,
+        "username": user_data.username,
+        "first_name": user_data.first_name,
+        "last_name": user_data.last_name,
+        "profile_link": profile_link,
     }
     await state.update_data(profit=message.text)
     data = await state.get_data()
