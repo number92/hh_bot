@@ -16,10 +16,18 @@ class PositionMenu(CallbackData, prefix="position"):
 
 def kb_choose_position():
 
-    jun = types.InlineKeyboardButton(text=Position.JUNIOR, callback_data=PositionMenu(name=Position.JUNIOR).pack())
-    mid = types.InlineKeyboardButton(text=Position.MIDDLE, callback_data=PositionMenu(name=Position.MIDDLE).pack())
-    sen = types.InlineKeyboardButton(text=Position.SENIOR, callback_data=PositionMenu(name=Position.SENIOR).pack())
-    lead = types.InlineKeyboardButton(text=Position.LEAD, callback_data=PositionMenu(name=Position.LEAD).pack())
+    jun = types.InlineKeyboardButton(
+        text="Junior. Делаю до 10 000$ в месяц", callback_data=PositionMenu(name=Position.JUNIOR).pack()
+    )
+    mid = types.InlineKeyboardButton(
+        text="Middle. Делаю до 40 000$ в месяц", callback_data=PositionMenu(name=Position.MIDDLE).pack()
+    )
+    sen = types.InlineKeyboardButton(
+        text="Senior. Делаю до 60 000$ в месяц", callback_data=PositionMenu(name=Position.SENIOR).pack()
+    )
+    lead = types.InlineKeyboardButton(
+        text="Team Lead. Готов присоединиться командой", callback_data=PositionMenu(name=Position.LEAD).pack()
+    )
     back = btn_back_to_menu()
     return types.InlineKeyboardMarkup(
         inline_keyboard=[[jun], [mid], [sen], [lead], [back]],

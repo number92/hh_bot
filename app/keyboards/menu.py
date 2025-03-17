@@ -16,6 +16,4 @@ def kb_main_menu(msg: types.Message):
         text="Посмотреть другие вакансии", callback_data=MainDataMenu(slug="other-vacanies").pack()
     )
 
-    return types.InlineKeyboardMarkup(
-        inline_keyboard=[[teamlead], [vacancy]],
-    )
+    return types.InlineKeyboardMarkup(inline_keyboard=[[teamlead], [vacancy]], row_width=1)
